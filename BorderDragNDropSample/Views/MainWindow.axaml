@@ -1,0 +1,77 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:BorderDragNDropSample.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:behaviors="clr-namespace:BorderDragNDropSample.Behaviors"
+        mc:Ignorable="d"
+        SizeToContent="Height"
+        CanResize="False"
+        Width="445"
+        x:Class="BorderDragNDropSample.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="BorderDragNDropSample">
+
+    <Design.DataContext>
+        <!-- This only sets the DataContext for the previewer in an IDE,
+             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+        <vm:MainWindowViewModel />
+    </Design.DataContext>
+    
+    <Window.Resources>
+        <behaviors:ItemsControlDropHandler x:Key="ItemsDropHandler" />
+    </Window.Resources>
+    
+    <Window.Styles>
+        <Style Selector="ItemsControl.ItemsDragAndDrop">
+            <Setter Property="(Interaction.Behaviors)">
+                <BehaviorCollectionTemplate>
+                    <BehaviorCollection>
+                        <ContextDropBehavior Handler="{StaticResource ItemsDropHandler}" />
+                    </BehaviorCollection>
+                </BehaviorCollectionTemplate>
+            </Setter>
+        </Style>
+        
+        <Style Selector="ItemsControl.ItemsDragAndDrop ContentPresenter">
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="(Interaction.Behaviors)">
+                <BehaviorCollectionTemplate>
+                    <BehaviorCollection>
+                        <ContextDragBehavior HorizontalDragThreshold="3" VerticalDragThreshold="3" />
+                    </BehaviorCollection>
+                </BehaviorCollectionTemplate>
+            </Setter>
+        </Style>
+    </Window.Styles>
+
+
+    <ItemsControl Classes="ItemsDragAndDrop" ItemsSource="{Binding Items}" HorizontalAlignment="Stretch">
+
+        <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+                <WrapPanel Orientation="Horizontal" />
+            </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+        
+        <ItemsControl.ItemTemplate>
+            <DataTemplate DataType="vm:DragItemViewModel">
+                <Border
+                    Margin="3"
+                    Background="{DynamicResource ThemeBackgroundBrush}"
+                    CornerRadius="5"
+                    BorderThickness="1"
+                    BorderBrush="BlueViolet"
+                    BoxShadow="2 1 5 0 Black"
+                    MinWidth="216"
+                    MinHeight="120"
+                    MaxWidth="216"
+                    MaxHeight="120">
+                    <TextBlock Text="{Binding Title}" />
+                </Border>
+            </DataTemplate>
+        </ItemsControl.ItemTemplate>
+    </ItemsControl>
+
+</Window>
