@@ -42,7 +42,7 @@ public class ItemsControlDropHandler : DropHandlerBase
             {
                 if (bExecute)
                 {
-                    MoveItem(items, sourceIndex, targetIndex);
+                    SwapItem(items, sourceIndex, targetIndex);
                 }
                 return true;
             }
@@ -50,7 +50,7 @@ public class ItemsControlDropHandler : DropHandlerBase
             {
                 if (bExecute)
                 {
-                    MoveItem(items, sourceIndex, targetIndex);
+                    SwapItem(items, sourceIndex, targetIndex);
                 }
                 return true;
             }
