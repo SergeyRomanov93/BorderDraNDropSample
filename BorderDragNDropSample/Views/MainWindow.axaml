@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:behaviors="clr-namespace:BorderDragNDropSample.Behaviors"
         mc:Ignorable="d"
-        SizeToContent="Height"
+        SizeToContent="WidthAndHeight"
         CanResize="False"
         Width="445"
         x:Class="BorderDragNDropSample.Views.MainWindow"
@@ -21,6 +21,9 @@
     
     <Window.Resources>
         <behaviors:ItemsControlDropHandler x:Key="ItemsDropHandler" />
+        <ObjectTemplate x:Key="ReorderPlaceholder">
+            <Border BorderThickness="0 0 0 2" BorderBrush="{DynamicResource SystemAccentColor}"/>
+        </ObjectTemplate>
     </Window.Resources>
     
     <Window.Styles>
@@ -39,27 +42,46 @@
             <Setter Property="(Interaction.Behaviors)">
                 <BehaviorCollectionTemplate>
                     <BehaviorCollection>
-                        <ContextDragBehavior HorizontalDragThreshold="3" VerticalDragThreshold="3" />
+                        <ListReorderDragBehavior PlaceholderTemplate="{StaticResource ReorderPlaceholder}" Orientation="Vertical" />
                     </BehaviorCollection>
                 </BehaviorCollectionTemplate>
             </Setter>
+            <Setter Property="Opacity" Value="0.6" />
+            <Setter Property="Transitions">
+                <Setter.Value>
+                    <Transitions>
+                        <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.1" />
+                    </Transitions>
+                </Setter.Value>
+            </Setter>
         </Style>
+        
+        <!-- <Style Selector="ItemsControl.ItemsDragAndDrop ContentPresenter"> -->
+        <!--     <Setter Property="HorizontalContentAlignment" Value="Stretch" /> -->
+        <!--     <Setter Property="(Interaction.Behaviors)"> -->
+        <!--         <BehaviorCollectionTemplate> -->
+        <!--             <BehaviorCollection> -->
+        <!--                 <ContextDragBehavior HorizontalDragThreshold="3" VerticalDragThreshold="3" /> -->
+        <!--             </BehaviorCollection> -->
+        <!--         </BehaviorCollectionTemplate> -->
+        <!--     </Setter> -->
+        <!-- </Style> -->
     </Window.Styles>
 
 
     <ItemsControl Classes="ItemsDragAndDrop" ItemsSource="{Binding Items}" HorizontalAlignment="Stretch">
 
-        <ItemsControl.ItemsPanel>
-            <ItemsPanelTemplate>
-                <WrapPanel Orientation="Horizontal" />
-            </ItemsPanelTemplate>
-        </ItemsControl.ItemsPanel>
+        <!-- <ItemsControl.ItemsPanel> -->
+        <!--     <ItemsPanelTemplate> -->
+        <!--         <WrapPanel Orientation="Horizontal" /> -->
+        <!--     </ItemsPanelTemplate> -->
+        <!-- </ItemsControl.ItemsPanel> -->
         
         <ItemsControl.ItemTemplate>
             <DataTemplate DataType="vm:DragItemViewModel">
                 <Border
                     Margin="3"
-                    Background="{DynamicResource ThemeBackgroundBrush}"
+                    Background="White"
                     CornerRadius="5"
                     BorderThickness="1"
                     BorderBrush="BlueViolet"
